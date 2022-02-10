@@ -1,0 +1,14 @@
+#include "common.dtsi"
+#include "apm.dtsi"
+
+&i2c1 {
+    i2c-mux@74 {
+    /delete-node/   i2c@2;
+    };
+};
+
+&PCIe_Subsystem_pcie_reg_space_v1_0_0 {
+	interrupt-parent = <&gic>;
+	interrupts = <0x0 89 0x4 0x0 90 0x4 0x0 91 0x4 >;
+	interrupt-names = "read", "write", "close";
+};

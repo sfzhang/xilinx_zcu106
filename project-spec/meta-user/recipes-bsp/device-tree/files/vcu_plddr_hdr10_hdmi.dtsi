@@ -1,0 +1,92 @@
+#include "hdmi-misc.dtsi"
+#include "common.dtsi"
+
+/ {
+        reserved-memory {
+            #address-cells = <0x2>;
+            #size-cells = <0x2>;
+            ranges;
+
+            plmem_vcu_dec: vcu_dma_mem_region {
+                compatible = "shared-dma-pool";
+                no-map;
+                reg = <0x48 0x0 0x0 0x70000000>;
+            };
+        };
+
+	vcu_apm_clk: vcu_apm_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <333000000>;
+        };
+};
+
+&decoder {
+        memory-region = <&plmem_vcu_dec>;
+};
+
+&amba_pl {
+        vid_stream_clk: vid_stream_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <300000000>;
+        };
+
+        vid_s_axi_clk: vid_s_axi_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <99990000>;
+        };
+
+        video_m2m {
+                compatible = "xlnx,mem2mem";
+                dmas = <&v_frmbuf_rd_0 0>, <&v_frmbuf_wr_0 0>;
+                dma-names = "tx", "rx";
+        };
+
+        vcu_apm: apm@0xa0240000 {
+                #address-cells = <0x1>;
+                #size-cells = <0x1>;
+                compatible = "generic-uio";
+                reg = <0x0 0xa0240000 0x0 0x10000>;
+                reg-names = "generic";
+        };
+};
+
+&i2c1 {
+        i2c-mux@74 {
+        /delete-node/   i2c@2;
+        };
+};
+
+&vid_phy_controller {
+        clock-names = "vid_phy_axi4lite_aclk", "dru-clk";
+        clocks = <&vid_s_axi_clk>, <&si570_2>;
+};
+
+&mpsoc_ss_hdmi_ctrl_iic {
+        clocks = <&vid_s_axi_clk>;
+};
+
+&hdmi_input_v_hdmi_rx_ss_0 {
+        clock-names = "s_axi_cpu_aclk", "s_axis_video_aclk";
+        clocks = <&vid_s_axi_clk>, <&vid_stream_clk>;
+};
+
+&hdmi_input_v_proc_ss_0 {
+        compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&hdmi_output_v_hdmi_tx_ss_0 {
+        clock-names = "s_axi_cpu_aclk", "s_axis_video_aclk", "txref-clk", "retimer-clk";
+        clocks = <&vid_s_axi_clk>, <&vid_stream_clk>, <&si5319 0>, <&dp159>;
+};
+
+&hdmi_output_v_mix_0{
+        /delete-property/ clock-names;
+        clocks = <&si5319 0>;
+};
+
+&hdmi_input_v_frmbuf_wr_0 {
+        xlnx,dma-align = <32>;
+};

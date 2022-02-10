@@ -1,0 +1,23 @@
+#Note: Mention Each package in individual line
+#These packages will get added into rootfs menu entry
+
+CONFIG_gpio-demo
+CONFIG_peekpoke
+CONFIG_gstreamer-vcu-examples
+CONFIG_packagegroup-petalinux-v4lutils
+CONFIG_packagegroup-petalinux-audio
+CONFIG_gstreamer-vcu-notebooks
+CONFIG_board-fpga-autoload
+CONFIG_trd-init
+CONFIG_kernel-module-hdmi
+CONFIG_kernel-module-pciep
+CONFIG_custom-edid
+CONFIG_vcu-video-lib
+CONFIG_vcu-apm-lib
+CONFIG_vcu-gst-lib
+CONFIG_gst-shark
+CONFIG_sds_lib
+CONFIG_pcie-lib
+CONFIG_vcu-gst-app
+CONFIG_vcu-qt
+CONFIG_pcie-transcode-app

@@ -1,0 +1,28 @@
+From 025bc9bab36d92674b1b27a8d65dfb3c92994622 Mon Sep 17 00:00:00 2001
+From: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@xilinx.com>
+Date: Wed, 28 Oct 2020 07:37:42 -0600
+Subject: [DEVICE-TREE-XLNX PATCH] Workaround to remove the IP_TYPE as BUS for
+ broadcaster IP
+
+Signed-off-by: Venkatesh Yadav Abbarapu <venkatesh.abbarapu@xilinx.com>
+---
+ device_tree/data/common_proc.tcl | 3 ---
+ 1 file changed, 3 deletions(-)
+
+diff --git a/device_tree/data/common_proc.tcl b/device_tree/data/common_proc.tcl
+index 745e9fc..2bef7a9 100644
+--- a/device_tree/data/common_proc.tcl
++++ b/device_tree/data/common_proc.tcl
+@@ -2711,9 +2711,6 @@ enechange"
+                         }
+                         set label $ip
+ 			set ip_type [get_property IP_TYPE $ip]
+-			if {[string match -nocase $ip_type "BUS"]} {
+-				break
+-			}
+                         set bus_node [add_or_get_bus_node $ip $default_dts]
+                         set dev_type [get_property IP_NAME [get_cell -hier [get_cells -hier $ip]]]
+ 			set rt_node [add_or_get_dt_node -n "axis_broadcaster$ip" -l ${label} -u 0 -d ${default_dts} -p $bus_node -auto_ref_parent]
+-- 
+2.17.1
+

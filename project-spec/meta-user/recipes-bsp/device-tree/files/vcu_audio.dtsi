@@ -1,0 +1,97 @@
+#include "common.dtsi"
+#include "hdmi-misc.dtsi"
+#include "apm.dtsi"
+#include "li-imx274mipi-fmc.dtsi"
+
+&amba_pl {
+	vid_stream_clk: vid_stream_clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <300000000>;
+	};
+	vid_s_axi_clk: vid_s_axi_clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <99990000>;
+	};
+ };
+
+&i2c1 {
+	i2c-mux@74 {
+	/delete-node/   i2c@3;
+	};
+};
+
+&vid_phy_controller {
+	clock-names = "mgtrefclk0_pad_p_in", "mgtrefclk0_pad_n_in", "mgtrefclk1_pad_p_in", "mgtrefclk1_pad_n_in", "gtsouthrefclk1_in", "gtsouthrefclk1_odiv2_in", "vid_phy_tx_axi4s_aclk", "vid_phy_rx_axi4s_aclk", "vid_phy_sb_aclk", "vid_phy_axi4lite_aclk", "drpclk","dru-clk";
+	clocks = <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_5>, <&misc_clk_5>, <&misc_clk_0>, <&misc_clk_0>, <&zynqmp_clk 71>, <&zynqmp_clk 71>, <&zynqmp_clk 71>,<&si5328 0>;
+};
+
+&audio_ss_0_audio_formatter_1 {
+	clocks = <&zynqmp_clk 71>, <&si570_1>, <&si570_1>, <&zynqmp_clk 71>;
+};
+
+&hdmi_input_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_proc_ss_0 {
+	compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&hdmi_output_v_hdmi_tx_ss_0 {
+	clock-names = "s_axi_cpu_aclk", "link_clk", "s_axis_audio_aclk", "video_clk", "s_axis_video_aclk","txref-clk", "retimer-clk";
+	clocks = <&zynqmp_clk 71>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_2>, <&zynqmp_clk 72>, <&si5319 0>, <&dp159>;
+};
+
+&xx_mix_masterhdmi_output_v_mix_0 {
+	/delete-property/ xlnx,layer-primary;
+};
+
+&xx_mix_overlay_7hdmi_output_v_mix_0 {
+	xlnx,layer-primary ;
+};
+
+&si5328 {
+        status = "okay";
+        compatible = "silabs,si5328";
+        reg = <0x69>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+        #clock-cells = <1>;
+
+        /* input clock(s); the XTAL is hard-wired on the ZCU106 board */
+        clocks = <&refhdmi>;
+        clock-names = "xtal";
+
+        /* output clocks */
+        clk0 {
+                reg = <0>;
+                /* VPHY DRU reference clock output frequency */
+                clock-frequency = <156250000>;
+        };
+};
+
+&sensor_iic_0 {
+        clocks = <&vid_s_axi_clk>;
+};
+
+&mipi_csi2_rx_mipi_csi2_rx_subsystem_0 {
+        compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
+};
+
+&mipi_csi_inmipi_csi2_rx_mipi_csi2_rx_subsystem_0 {
+        remote-endpoint = <&sensor_out>;
+};
+
+&mipi_csi2_rx_v_proc_ss_csc {
+	compatible = "xlnx,v-vpss-csc";
+};
+
+&mipi_csi2_rx_v_proc_ss_scaler {
+	compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&mipi_csi2_rx_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};

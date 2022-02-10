@@ -1,0 +1,34 @@
+&mpsoc_ss_hdmi_ctrl_iic {
+	clocks = <&vid_s_axi_clk>;
+	/* Si5319 i2c clock generator */
+	si5319: clock-generator@68 {
+		status = "okay";
+		compatible = "silabs,si5319";
+		reg = <0x68>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		#clock-cells = <1>;
+
+		/* input clock(s); the XTAL is hard-wired on the ZCU102 board */
+		clocks = <&refhdmi>;
+		clock-names = "xtal";
+
+		/* output clocks */
+		clk0 {
+			reg = <0>;
+			/* HDMI TX reference clock output frequency */
+			clock-frequency = <27000000>;
+		};
+	};
+
+	/* DP159 exposes a virtual CCF clock. Upon .set_rate(), it adapts its retiming/driving behaviour */
+	dp159: hdmi-retimer@5e {
+		status = "okay";
+		compatible = "ti,dp159";
+		reg = <0x5e>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		#clock-cells = <0>;
+	};
+};
+

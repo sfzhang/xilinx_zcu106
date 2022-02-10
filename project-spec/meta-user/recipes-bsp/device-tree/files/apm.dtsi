@@ -1,0 +1,11 @@
+&amba_pl {
+
+	vcu_apm: apm@0xa0140000 {
+		#address-cells = <0x1>;
+		#size-cells = <0x1>;
+		compatible = "generic-uio";
+		reg = <0x0 0xa0140000 0x0 0x10000>;
+		reg-names = "generic";
+	};
+
+};

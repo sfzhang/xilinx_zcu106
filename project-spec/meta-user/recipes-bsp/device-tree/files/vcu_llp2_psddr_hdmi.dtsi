@@ -1,0 +1,125 @@
+#include "common.dtsi"
+#include "hdmi-misc.dtsi"
+#include "apm.dtsi"
+
+&amba_pl {
+	vid_stream_clk: vid_stream_clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <300000000>;
+	};
+
+	vid_s_axi_clk: vid_s_axi_clk {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <99990000>;
+	};
+
+	/delete-node/ vcapaxis_broad_out1hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out2hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out3hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out4hdmi_input_axis_broadcaster_0;
+
+        vcapaxis_broad_out1hdmi_input_axis_broadcaster_0 {
+                compatible = "xlnx,video";
+                xlnx,atomic_streamon = <1>;
+                dma-names = "port0", "port1", "port2", "port3";
+                dmas = <&hdmi_input_v_frmbuf_wr_0 0>, <&hdmi_input_v_frmbuf_wr_1 0>, <&hdmi_input_v_frmbuf_wr_2 0>, <&hdmi_input_v_frmbuf_wr_3 0>;
+                vcap_portsaxis_broad_out1hdmi_input_axis_broadcaster_0: ports {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                        vcap_portaxis_broad_out1hdmi_input_axis_broadcaster_0: port@0 {
+                                direction = "input";
+                                reg = <0>;
+                                hdmi_input_v_frmbuf_wr_0hdmi_input_axis_broadcaster_0: endpoint {
+                                        remote-endpoint = <&axis_broad_out1hdmi_input_axis_broadcaster_0>;
+                                };
+                        };
+
+                        vcap_portaxis_broad_out2hdmi_input_axis_broadcaster_0: port@1 {
+                                  direction = "input";
+                                  reg = <1>;
+                                  hdmi_input_v_frmbuf_wr_1hdmi_input_axis_broadcaster_0: endpoint {
+                                          remote-endpoint = <&axis_broad_out2hdmi_input_axis_broadcaster_0>;
+                                  };
+                        };
+
+                       vcap_portaxis_broad_out3hdmi_input_axis_broadcaster_0: port@2 {
+                               direction = "input";
+                               reg = <2>;
+                               hdmi_input_v_frmbuf_wr_2hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out3hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+
+                       vcap_portaxis_broad_out4hdmi_input_axis_broadcaster_0: port@3 {
+                               direction = "input";
+                               reg = <3>;
+                               hdmi_input_v_frmbuf_wr_3hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out4hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+                };
+        };
+};
+
+&i2c1 {
+	i2c-mux@74 {
+	/delete-node/   i2c@3;
+	};
+};
+
+&vid_phy_controller {
+	clock-names = "mgtrefclk0_pad_p_in", "mgtrefclk0_pad_n_in", "mgtrefclk1_pad_p_in", "mgtrefclk1_pad_n_in", "gtsouthrefclk1_in", "gtsouthrefclk1_odiv2_in", "vid_phy_tx_axi4s_aclk", "vid_phy_rx_axi4s_aclk", "vid_phy_sb_aclk", "vid_phy_axi4lite_aclk", "drpclk","dru-clk";
+	clocks = <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_4>, <&misc_clk_5>, <&misc_clk_5>, <&misc_clk_0>, <&misc_clk_0>, <&zynqmp_clk 71>, <&zynqmp_clk 71>, <&zynqmp_clk 71>,<&si5328 0>;
+};
+
+&audio_ss_0_audio_formatter_1 {
+	clocks = <&zynqmp_clk 71>, <&si570_1>, <&si570_1>, <&zynqmp_clk 71>;
+};
+
+&hdmi_input_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_1 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_2 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_3 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_proc_ss_0 {
+	compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&hdmi_output_v_hdmi_tx_ss_0{
+	clock-names = "s_axi_cpu_aclk", "link_clk", "s_axis_audio_aclk", "video_clk", "s_axis_video_aclk","txref-clk", "retimer-clk";
+	clocks = <&zynqmp_clk 71>, <&misc_clk_0>, <&misc_clk_1>, <&misc_clk_2>, <&zynqmp_clk 72>, <&si5319 0>, <&dp159>;
+};
+
+&si5328 {
+        status = "okay";
+        compatible = "silabs,si5328";
+        reg = <0x69>;
+        #address-cells = <1>;
+        #size-cells = <0>;
+        #clock-cells = <1>;
+
+        /* input clock(s); the XTAL is hard-wired on the ZCU106 board */
+        clocks = <&refhdmi>;
+        clock-names = "xtal";
+
+        /* output clocks */
+        clk0 {
+                reg = <0>;
+                /* VPHY DRU reference clock output frequency */
+                clock-frequency = <156250000>;
+        };
+};
+

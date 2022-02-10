@@ -1,0 +1,201 @@
+#include "common.dtsi"
+#include "li-imx274mipi-fmc.dtsi"
+#include "hdmi-misc.dtsi"
+#include "apm.dtsi"
+
+&amba_pl {
+        vid_stream_clk: vid_stream_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <300000000>;
+        };
+
+        vid_s_axi_clk: vid_s_axi_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <99990000>;
+	};
+
+
+	/delete-node/ vcapaxis_broad_out1hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out2hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out3hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out4hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out5hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out6hdmi_input_axis_broadcaster_0;
+	/delete-node/ vcapaxis_broad_out7hdmi_input_axis_broadcaster_0;
+
+       vcapaxis_broad_out1hdmi_input_axis_broadcaster_0 {
+                compatible = "xlnx,video";
+                xlnx,atomic_streamon = <1>;
+		dma-names = "port0", "port1", "port2", "port3", "port4", "port5", "port6";
+                dmas = <&hdmi_input_v_frmbuf_wr_0 0>, <&hdmi_input_v_frmbuf_wr_1 0>, <&hdmi_input_v_frmbuf_wr_2 0>, <&hdmi_input_v_frmbuf_wr_3 0>, <&hdmi_input_v_frmbuf_wr_4 0>, <&hdmi_input_v_frmbuf_wr_5 0>, <&hdmi_input_v_frmbuf_wr_6 0>;
+                vcap_portsaxis_broad_out1hdmi_input_axis_broadcaster_0: ports {
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                        vcap_portaxis_broad_out1hdmi_input_axis_broadcaster_0: port@0 {
+                                direction = "input";
+                                reg = <0>;
+                                hdmi_input_v_frmbuf_wr_0hdmi_input_axis_broadcaster_0: endpoint {
+                                        remote-endpoint = <&axis_broad_out1hdmi_input_axis_broadcaster_0>;
+                                };
+                        };
+
+			vcap_portaxis_broad_out2hdmi_input_axis_broadcaster_0: port@1 {
+                                  direction = "input";
+                                  reg = <1>;
+                                  hdmi_input_v_frmbuf_wr_1hdmi_input_axis_broadcaster_0: endpoint {
+                                          remote-endpoint = <&axis_broad_out2hdmi_input_axis_broadcaster_0>;
+                                  };
+                        };
+
+                       vcap_portaxis_broad_out3hdmi_input_axis_broadcaster_0: port@2 {
+                               direction = "input";
+                               reg = <2>;
+                               hdmi_input_v_frmbuf_wr_2hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out3hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+
+                       vcap_portaxis_broad_out4hdmi_input_axis_broadcaster_0: port@3 {
+                               direction = "input";
+                               reg = <3>;
+                               hdmi_input_v_frmbuf_wr_3hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out4hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+
+                       vcap_portaxis_broad_out5hdmi_input_axis_broadcaster_0: port@4 {
+                               direction = "input";
+                               reg = <4>;
+                               hdmi_input_v_frmbuf_wr_4hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out5hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+                       vcap_portaxis_broad_out6hdmi_input_axis_broadcaster_0: port@5 {
+                               direction = "input";
+                               reg = <5>;
+                               hdmi_input_v_frmbuf_wr_5hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out6hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+                       vcap_portaxis_broad_out7hdmi_input_axis_broadcaster_0: port@6 {
+                               direction = "input";
+                               reg = <6>;
+                               hdmi_input_v_frmbuf_wr_6hdmi_input_axis_broadcaster_0: endpoint {
+                                       remote-endpoint = <&axis_broad_out7hdmi_input_axis_broadcaster_0>;
+                               };
+                       };
+
+                };
+        };
+
+
+};
+
+&i2c1 {
+	i2c-mux@74 {
+	/delete-node/   i2c@2;
+	};
+};
+
+&hdmi_input_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_1 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_2 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_3 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_4 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_5 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_frmbuf_wr_6 {
+	xlnx,dma-align = <32>;
+};
+
+&hdmi_input_v_hdmi_rx_ss_0 {
+	clock-names = "s_axi_cpu_aclk", "s_axis_video_aclk";
+	clocks = <&vid_s_axi_clk>, <&vid_stream_clk>;
+};
+
+&axi_intc_0 {
+	interrupt-parent = <&gic>;
+	interrupts = <0 108 4>;
+};
+
+&hdmi_input_v_proc_ss_0 {
+	compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&vid_phy_controller {
+        clock-names = "vid_phy_axi4lite_aclk", "dru-clk";
+        clocks = <&vid_s_axi_clk>, <&si570_2>;
+};
+
+&mpsoc_ss_hdmi_ctrl_iic {
+        clocks = <&vid_s_axi_clk>;
+};
+
+&hdmi_output_v_hdmi_tx_ss_0 {
+	clock-names = "s_axi_cpu_aclk", "s_axis_video_aclk", "txref-clk", "retimer-clk";
+	clocks = <&vid_s_axi_clk>, <&vid_stream_clk>, <&si5319 0>, <&dp159>;
+};
+
+&hdmi_output_v_mix_0 {
+	/delete-property/ clock-names;
+	clocks = <&si5319 0>;
+};
+
+&sensor_iic_0 {
+        clocks = <&vid_s_axi_clk>;
+};
+
+&mipi_csi2_rx_mipi_csi2_rx_subsystem_0 {
+        compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
+};
+
+&mipi_csi_inmipi_csi2_rx_mipi_csi2_rx_subsystem_0 {
+        remote-endpoint = <&sensor_out>;
+};
+
+&mipi_csi2_rx_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};
+
+&mipi_csi2_rx_v_proc_ss_csc {
+	compatible = "xlnx,v-vpss-csc";
+};
+
+&mipi_csi2_rx_v_proc_ss_scaler {
+	compatible = "xlnx,v-vpss-scaler-2.2";
+};
+
+&tpg_input_v_frmbuf_wr_0 {
+	xlnx,dma-align = <32>;
+};
+
+&tpg_input_v_tpg_1 {
+	tpg_portstpg_input_v_tpg_1: ports {
+		/delete-node/   port@1;
+		tpg_port0tpg_input_v_tpg_1: port@0 {
+			xlnx,video-format = <0x3>;
+			tpg_outtpg_input_v_tpg_1: endpoint {
+				remote-endpoint = <&tpg_input_v_frmbuf_wr_0tpg_input_v_tpg_1>;
+			};
+		};
+	};
+};

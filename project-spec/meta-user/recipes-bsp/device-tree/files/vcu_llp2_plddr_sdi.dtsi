@@ -1,0 +1,67 @@
+#include "apm.dtsi"
+#include "common.dtsi"
+
+/ {
+        reserved-memory {
+            #address-cells = <0x2>;
+            #size-cells = <0x2>;
+            ranges;
+
+            plmem_vcu_dec: vcu_dma_mem_region {
+                compatible = "shared-dma-pool";
+                reg = <0x48 0x0 0x0 0x70000000>;
+            };
+        };
+
+	vcu_apm_clk: vcu_apm_clk {
+                compatible = "fixed-clock";
+                #clock-cells = <0>;
+                clock-frequency = <333000000>;
+        };
+
+};
+
+&decoder {
+    memory-region = <&plmem_vcu_dec>;
+};
+
+&sdi_rx_input_v_smpte_uhdsdi_rx_ss {
+    clock-names = "video_out_clk", "sdi_rx_clk", "s_axi_aclk";
+    clocks =  <&zynqmp_clk 72>, <&si570_2>, <&zynqmp_clk 71>;
+    xlnx,picxo_enabled;
+    reset-gt-gpios = <&axi_gpio_0 0 0 1>;
+    picxo-reset-gpios = <&axi_gpio_0 2 0 0>;
+};
+
+&sdi_tx_output_v_smpte_uhdsdi_tx_ss {
+    clock-names = "sdi_tx_clk", "video_in_clk", "s_axi_aclk";
+    clocks = <&si570_2>, <&zynqmp_clk 72>, <&zynqmp_clk 71>;
+    xlnx,picxo_enabled;
+};
+
+&i2c1 {
+    i2c-mux@74 {
+    /delete-node/   i2c@2;
+    };
+};
+
+&amba_pl {
+    vid_stream_clk: vid_stream_clk {
+            compatible = "fixed-clock";
+            #clock-cells = <0>;
+            clock-frequency = <300000000>;
+    };
+
+    vid_s_axi_clk: vid_s_axi_clk {
+           compatible = "fixed-clock";
+           #clock-cells = <0>;
+           clock-frequency = <99990000>;
+    };
+
+    video_m2m {
+       compatible = "xlnx,mem2mem";
+       dmas = <&v_frmbuf_rd_0 0>, <&v_frmbuf_wr_0 0>;
+       dma-names = "tx", "rx";
+    };
+};
+

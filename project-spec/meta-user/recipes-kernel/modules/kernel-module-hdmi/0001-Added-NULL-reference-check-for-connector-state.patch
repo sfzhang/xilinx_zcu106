@@ -1,0 +1,29 @@
+From d32ac673d9ad31168bd5b21e74d221bbc792756e Mon Sep 17 00:00:00 2001
+From: Sunil Vaghela <sunil.vaghela@xilinx.com>
+Date: Wed, 13 Oct 2021 13:35:36 +0530
+Subject: [PATCH] Added NULL reference check for connector state
+
+This will fix kernel trace error while removing the hdmi-tx
+module
+
+Signed-off-by: Sunil Vaghela <sunil.vaghela@xilinx.com>
+---
+ hdmi/xilinx_drm_hdmi.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/hdmi/xilinx_drm_hdmi.c b/hdmi/xilinx_drm_hdmi.c
+index 69ad3de..5317efd 100644
+--- a/hdmi/xilinx_drm_hdmi.c
++++ b/hdmi/xilinx_drm_hdmi.c
+@@ -747,6 +747,8 @@ static void TxVsCallback(void *CallbackRef)
+ 				XV_HdmiTxSs_GetDrmInfoframe(HdmiTxSsPtr);
+ 	XHdmiC_Aux hdr_aux_fifo;
+ 	struct drm_connector_state *state = xhdmi->connector.state;
++	if(!state)
++		return;
+ 
+ 	/* Send NULL Aux packet */
+ 	SendInfoframe(HdmiTxSsPtr);
+-- 
+2.17.1
+
