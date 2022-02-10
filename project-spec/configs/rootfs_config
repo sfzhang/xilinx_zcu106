@@ -317,7 +317,7 @@ CONFIG_mtd-utils=y
 #
 # tar 
 #
-# CONFIG_tar is not set
+CONFIG_tar=y
 # CONFIG_tar-dev is not set
 # CONFIG_tar-dbg is not set
 # CONFIG_tar-rmt is not set
@@ -325,19 +325,19 @@ CONFIG_mtd-utils=y
 #
 # tzdata 
 #
-# CONFIG_tzdata is not set
-# CONFIG_tzdata-pacific is not set
-# CONFIG_tzdata-posix is not set
-# CONFIG_tzdata-antarctica is not set
-# CONFIG_tzdata-africa is not set
-# CONFIG_tzdata-europe is not set
-# CONFIG_tzdata-americas is not set
-# CONFIG_tzdata-right is not set
-# CONFIG_tzdata-atlantic is not set
-# CONFIG_tzdata-australia is not set
-# CONFIG_tzdata-misc is not set
-# CONFIG_tzdata-asia is not set
-# CONFIG_tzdata-arctic is not set
+CONFIG_tzdata=y
+CONFIG_tzdata-pacific=y
+CONFIG_tzdata-posix=y
+CONFIG_tzdata-antarctica=y
+CONFIG_tzdata-africa=y
+CONFIG_tzdata-europe=y
+CONFIG_tzdata-americas=y
+CONFIG_tzdata-right=y
+CONFIG_tzdata-atlantic=y
+CONFIG_tzdata-australia=y
+CONFIG_tzdata-misc=y
+CONFIG_tzdata-asia=y
+CONFIG_tzdata-arctic=y
 
 #
 # update-rc.d 
@@ -402,7 +402,7 @@ CONFIG_mtd-utils=y
 #
 # xz 
 #
-# CONFIG_xz is not set
+CONFIG_xz=y
 # CONFIG_xz-dev is not set
 # CONFIG_xz-dbg is not set
 # CONFIG_liblzma is not set
@@ -644,7 +644,7 @@ CONFIG_openssh-sftp-server=y
 #
 # alsa-utils 
 #
-# CONFIG_alsa-utils is not set
+CONFIG_alsa-utils=y
 # CONFIG_alsa-utils-alsatplg is not set
 # CONFIG_alsa-utils-midi is not set
 # CONFIG_alsa-utils-alsactl is not set
@@ -672,7 +672,7 @@ CONFIG_openssh-sftp-server=y
 #
 # bzip2 
 #
-# CONFIG_bzip2 is not set
+CONFIG_bzip2=y
 # CONFIG_libbz2 is not set
 # CONFIG_bzip2-dbg is not set
 # CONFIG_bzip2-dev is not set
@@ -680,21 +680,21 @@ CONFIG_openssh-sftp-server=y
 #
 # file 
 #
-# CONFIG_file is not set
+CONFIG_file=y
 # CONFIG_file-dev is not set
 # CONFIG_file-dbg is not set
 
 #
 # findutils 
 #
-# CONFIG_findutils is not set
+CONFIG_findutils=y
 # CONFIG_findutils-dbg is not set
 # CONFIG_findutils-dev is not set
 
 #
 # gawk 
 #
-# CONFIG_gawk is not set
+CONFIG_gawk=y
 # CONFIG_gawk-dbg is not set
 # CONFIG_gawk-dev is not set
 
@@ -711,7 +711,7 @@ CONFIG_openssh-sftp-server=y
 #
 # grep 
 #
-# CONFIG_grep is not set
+CONFIG_grep=y
 # CONFIG_grep-dbg is not set
 # CONFIG_grep-dev is not set
 
@@ -725,7 +725,7 @@ CONFIG_openssh-sftp-server=y
 #
 # gzip 
 #
-# CONFIG_gzip is not set
+CONFIG_gzip=y
 # CONFIG_gzip-dev is not set
 # CONFIG_gzip-dbg is not set
 
@@ -740,7 +740,7 @@ CONFIG_openssh-sftp-server=y
 #
 # less 
 #
-# CONFIG_less is not set
+CONFIG_less=y
 # CONFIG_less-dbg is not set
 # CONFIG_less-dev is not set
 
@@ -792,7 +792,7 @@ CONFIG_pciutils=y
 #
 # pkgconfig 
 #
-# CONFIG_pkgconfig is not set
+CONFIG_pkgconfig=y
 # CONFIG_pkgconfig-dev is not set
 # CONFIG_pkgconfig-dbg is not set
 
@@ -806,7 +806,7 @@ CONFIG_pciutils=y
 #
 # sed 
 #
-# CONFIG_sed is not set
+CONFIG_sed=y
 # CONFIG_sed-dev is not set
 # CONFIG_sed-dbg is not set
 
@@ -849,27 +849,27 @@ CONFIG_pciutils=y
 #
 # unzip 
 #
-# CONFIG_unzip is not set
+CONFIG_unzip=y
 # CONFIG_unzip-dbg is not set
 # CONFIG_unzip-dev is not set
 
 #
 # vim 
 #
-# CONFIG_vim is not set
+CONFIG_vim=y
 # CONFIG_vim-help is not set
 # CONFIG_vim-dbg is not set
-# CONFIG_vim-vimrc is not set
+CONFIG_vim-vimrc=y
 # CONFIG_vim-dev is not set
 # CONFIG_vim-tutor is not set
-# CONFIG_vim-tools is not set
-# CONFIG_vim-common is not set
-# CONFIG_vim-syntax is not set
+CONFIG_vim-tools=y
+CONFIG_vim-common=y
+CONFIG_vim-syntax=y
 
 #
 # zip 
 #
-# CONFIG_zip is not set
+CONFIG_zip=y
 # CONFIG_zip-dev is not set
 # CONFIG_zip-dbg is not set
 
@@ -1198,7 +1198,7 @@ CONFIG_run-postinsts=y
 #
 # cantarell-fonts 
 #
-# CONFIG_cantarell-fonts is not set
+CONFIG_cantarell-fonts=y
 # CONFIG_cantarell-fonts-dbg is not set
 # CONFIG_cantarell-fonts-dev is not set
 
@@ -1593,9 +1593,13 @@ CONFIG_run-postinsts=y
 #
 # libmali-xlnx 
 #
-# CONFIG_libmali-xlnx is not set
+CONFIG_libmali-xlnx=y
 # CONFIG_libmali-xlnx-dbg is not set
 # CONFIG_libmali-xlnx-dev is not set
+# CONFIG_mali-backend-fbdev is not set
+# CONFIG_mali-backend-headless is not set
+# CONFIG_mali-backend-wayland is not set
+CONFIG_mali-backend-x11=y
 
 #
 # libmetal 
@@ -2185,7 +2189,7 @@ CONFIG_zocl=y
 #
 # opencl-clhpp
 #
-# CONFIG_opencl-clhpp-dev is not set
+CONFIG_opencl-clhpp-dev=y
 
 #
 # opencl-headers
@@ -2200,8 +2204,8 @@ CONFIG_opencl-headers=y
 #
 # zlib 
 #
-# CONFIG_zlib is not set
-# CONFIG_zlib-dev is not set
+CONFIG_zlib=y
+CONFIG_zlib-dev=y
 # CONFIG_zlib-dbg is not set
 
 #
@@ -2635,21 +2639,21 @@ CONFIG_kernel-module-hdmi=y
 #
 # openamp-fw-echo-testd 
 #
-# CONFIG_openamp-fw-echo-testd is not set
+CONFIG_openamp-fw-echo-testd=y
 # CONFIG_openamp-fw-echo-testd-dev is not set
 # CONFIG_openamp-fw-echo-testd-dbg is not set
 
 #
 # openamp-fw-mat-muld 
 #
-# CONFIG_openamp-fw-mat-muld is not set
+CONFIG_openamp-fw-mat-muld=y
 # CONFIG_openamp-fw-mat-muld-dev is not set
 # CONFIG_openamp-fw-mat-muld-dbg is not set
 
 #
 # openamp-fw-rpc-demo 
 #
-# CONFIG_openamp-fw-rpc-demo is not set
+CONFIG_openamp-fw-rpc-demo=y
 # CONFIG_openamp-fw-rpc-demo-dbg is not set
 # CONFIG_openamp-fw-rpc-demo-dev is not set
 
@@ -3384,7 +3388,7 @@ CONFIG_media-ctl=y
 #
 # xhost 
 #
-# CONFIG_xhost is not set
+CONFIG_xhost=y
 # CONFIG_xhost-dbg is not set
 # CONFIG_xhost-dev is not set
 
@@ -3995,9 +3999,9 @@ CONFIG_libdrm-kms=y
 #
 # packagegroup-petalinux 
 #
-# CONFIG_packagegroup-petalinux is not set
+CONFIG_packagegroup-petalinux=y
 # CONFIG_packagegroup-petalinux-dbg is not set
-# CONFIG_packagegroup-petalinux-dev is not set
+CONFIG_packagegroup-petalinux-dev=y
 
 #
 # packagegroup-petalinux-audio 
@@ -4024,7 +4028,7 @@ CONFIG_packagegroup-petalinux-audio=y
 # packagegroup-petalinux-gstreamer 
 #
 CONFIG_packagegroup-petalinux-gstreamer=y
-# CONFIG_packagegroup-petalinux-gstreamer-dev is not set
+CONFIG_packagegroup-petalinux-gstreamer-dev=y
 # CONFIG_packagegroup-petalinux-gstreamer-dbg is not set
 
 #
@@ -4051,9 +4055,9 @@ CONFIG_packagegroup-petalinux-matchbox=y
 #
 # packagegroup-petalinux-multimedia 
 #
-# CONFIG_packagegroup-petalinux-multimedia is not set
+CONFIG_packagegroup-petalinux-multimedia=y
 # CONFIG_packagegroup-petalinux-multimedia-dbg is not set
-# CONFIG_packagegroup-petalinux-multimedia-dev is not set
+CONFIG_packagegroup-petalinux-multimedia-dev=y
 
 #
 # packagegroup-petalinux-networking-debug
@@ -4079,21 +4083,21 @@ CONFIG_packagegroup-petalinux-matchbox=y
 #
 # packagegroup-petalinux-openamp 
 #
-# CONFIG_packagegroup-petalinux-openamp is not set
-# CONFIG_packagegroup-petalinux-openamp-dev is not set
+CONFIG_packagegroup-petalinux-openamp=y
+CONFIG_packagegroup-petalinux-openamp-dev=y
 # CONFIG_packagegroup-petalinux-openamp-dbg is not set
 
 #
 # packagegroup-petalinux-opencv 
 #
-# CONFIG_packagegroup-petalinux-opencv is not set
-# CONFIG_packagegroup-petalinux-opencv-dev is not set
+CONFIG_packagegroup-petalinux-opencv=y
+CONFIG_packagegroup-petalinux-opencv-dev=y
 # CONFIG_packagegroup-petalinux-opencv-dbg is not set
 
 #
 # packagegroup-petalinux-python-modules 
 #
-# CONFIG_packagegroup-petalinux-python-modules is not set
+CONFIG_packagegroup-petalinux-python-modules=y
 # CONFIG_packagegroup-petalinux-python-modules-dbg is not set
 # CONFIG_packagegroup-petalinux-python-modules-dev is not set
 
@@ -4101,16 +4105,16 @@ CONFIG_packagegroup-petalinux-matchbox=y
 # packagegroup-petalinux-qt 
 #
 CONFIG_packagegroup-petalinux-qt=y
-# CONFIG_packagegroup-petalinux-qt-dev is not set
+CONFIG_packagegroup-petalinux-qt-dev=y
 # CONFIG_packagegroup-petalinux-qt-dbg is not set
-# CONFIG_imageclass-populate-sdk-qt5 is not set
+CONFIG_imageclass-populate-sdk-qt5=y
 
 #
 # packagegroup-petalinux-qt-extended 
 #
-# CONFIG_packagegroup-petalinux-qt-extended is not set
+CONFIG_packagegroup-petalinux-qt-extended=y
 # CONFIG_packagegroup-petalinux-qt-extended-dbg is not set
-# CONFIG_packagegroup-petalinux-qt-extended-dev is not set
+CONFIG_packagegroup-petalinux-qt-extended-dev=y
 
 #
 # packagegroup-petalinux-self-hosted 
@@ -4122,7 +4126,7 @@ CONFIG_packagegroup-petalinux-qt=y
 #
 # packagegroup-petalinux-utils 
 #
-# CONFIG_packagegroup-petalinux-utils is not set
+CONFIG_packagegroup-petalinux-utils=y
 # CONFIG_packagegroup-petalinux-utils-dbg is not set
 # CONFIG_packagegroup-petalinux-utils-dev is not set
 
@@ -4194,11 +4198,11 @@ CONFIG_board-fpga-autoload=y
 CONFIG_custom-edid=y
 CONFIG_gst-shark=y
 CONFIG_gstreamer-vcu-examples=y
-# CONFIG_gstreamer-vcu-notebooks is not set
+CONFIG_gstreamer-vcu-notebooks=y
 # CONFIG_sds is not set
 
 #
 # PetaLinux RootFS Settings
 #
 CONFIG_ROOTFS_ROOT_PASSWD="root"
-CONFIG_ADD_EXTRA_USERS="petalinux:petalinux;"
+CONFIG_ADD_EXTRA_USERS="petalinux:petalinux;ronovo:ronovo;"
