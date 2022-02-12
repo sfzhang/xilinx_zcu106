@@ -7,6 +7,7 @@ SRC_URI_append ="\
     file://apm.dtsi \
     file://hdmi-misc.dtsi \
     file://li-imx274mipi-fmc.dtsi \
+    file://vcu_trd.dtsi \
     file://0001-Workaround-to-remove-the-IP_TYPE-as-BUS-for-broadcas.patch \
 "
 

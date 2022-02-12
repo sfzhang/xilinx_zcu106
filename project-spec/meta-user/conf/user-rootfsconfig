@@ -21,3 +21,7 @@ CONFIG_pcie-lib
 CONFIG_vcu-gst-app
 CONFIG_vcu-qt
 CONFIG_pcie-transcode-app
+CONFIG_libsample
+CONFIG_sampleapp
+CONFIG_sampleapp-dev
+CONFIG_sampleapp-dbg

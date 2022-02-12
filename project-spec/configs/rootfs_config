@@ -4172,8 +4172,10 @@ CONFIG_auto-login=y
 # apps 
 #
 # CONFIG_gpio-demo is not set
+CONFIG_libsample=y
 CONFIG_pcie-transcode-app=y
 # CONFIG_peekpoke is not set
+CONFIG_sampleapp=y
 CONFIG_trd-init=y
 CONFIG_vcu-gst-app=y
 CONFIG_vcu-qt=y
@@ -4199,6 +4201,8 @@ CONFIG_custom-edid=y
 CONFIG_gst-shark=y
 CONFIG_gstreamer-vcu-examples=y
 CONFIG_gstreamer-vcu-notebooks=y
+CONFIG_sampleapp-dbg=y
+# CONFIG_sampleapp-dev is not set
 # CONFIG_sds is not set
 
 #

@@ -1,1 +1,17 @@
-vcu_trd.dtsi
+#include "vcu_trd.dtsi"
+
+/ {
+    rnvfpga {
+        compatible = "ronovo,irqscope";
+        interrupts = <0 29 4>;
+        interrupt-parent = <&gic>;
+    };
+};
+
+&amba {
+    axiscope: axiscope@43C00000 {
+        compatible = "ronovo,axiscope";
+        reg = <0x43C00000 0x10000>;
+    };
+};
+
