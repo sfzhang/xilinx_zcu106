@@ -2,7 +2,7 @@
 
 / {
     rnvfpga {
-        compatible = "ronovo,irqscope";
+        compatible = "ronovo,axiirq";
         interrupts = <0 29 4>;
         interrupt-parent = <&gic>;
     };
@@ -10,7 +10,7 @@
 
 &amba {
     axiscope: axiscope@43C00000 {
-        compatible = "ronovo,axiscope";
+        compatible = "ronovo,axireg";
         reg = <0x43C00000 0x10000>;
     };
 };

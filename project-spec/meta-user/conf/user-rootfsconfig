@@ -25,3 +25,6 @@ CONFIG_libsample
 CONFIG_sampleapp
 CONFIG_sampleapp-dev
 CONFIG_sampleapp-dbg
+CONFIG_axiscope
+CONFIG_axireg
+CONFIG_axiirq

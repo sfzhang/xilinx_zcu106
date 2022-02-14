@@ -299,4 +299,7 @@ CONFIG_YOCTO_BUILDTOOLS_EXTENDED=y
 # User Layers
 #
 CONFIG_USER_LAYER_0=""
+
+
+
 CONFIG_SUBSYSTEM_BOOTARGS_GENERATED=" earlycon console=ttyPS0,115200 clk_ignore_unused init_fatal_sh=1 cma=1000M"

@@ -4189,6 +4189,13 @@ CONFIG_vcu-gst-lib=y
 CONFIG_vcu-video-lib=y
 
 #
+# modules 
+#
+CONFIG_axiirq=y
+CONFIG_axireg=y
+CONFIG_axiscope=y
+
+#
 # user packages 
 #
 
