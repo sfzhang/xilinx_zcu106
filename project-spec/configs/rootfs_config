@@ -4171,6 +4171,7 @@ CONFIG_auto-login=y
 #
 # apps 
 #
+CONFIG_chrtest=y
 # CONFIG_gpio-demo is not set
 CONFIG_libsample=y
 CONFIG_pcie-transcode-app=y

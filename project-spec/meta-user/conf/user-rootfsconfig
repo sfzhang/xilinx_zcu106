@@ -28,3 +28,4 @@ CONFIG_sampleapp-dbg
 CONFIG_axiscope
 CONFIG_axireg
 CONFIG_axiirq
+CONFIG_chrtest

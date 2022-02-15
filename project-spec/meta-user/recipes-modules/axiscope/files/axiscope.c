@@ -29,168 +29,137 @@
 #include <linux/fs.h>
 #include <asm/io.h>
 #include <linux/uaccess.h>
+#include <linux/cdev.h>
 
-#define DEVICE_NAME         "axiscope"
-#define AXI4_DEV_PHY_ADDR   0x43C00000 //Modify the address to your peripheral
-#define CCU_START_ADDR 0
-#define CCU_END_ADDR 10000
-#define RRCM_RD_BUF_SIZE 4
-#define RRCM_WR_BUF_SIZE 4
+struct chrdev_t {
+    dev_t devid;
+    struct cdev cdev;
+    struct class *class;
+    struct device *device;
+    char buffer[64];
+} g_chrdev;
 
-static void __iomem *g_axi4_dev_addr;
-
-static int axi4_dev_open(struct inode *inode , struct file *filp)
+static int chrdev_dev_open(struct inode *inode , struct file *filp)
 {
     return 0;
 }
 
-static int axi4_dev_release(struct inode *inode, struct file *filp)
+static int chrdev_dev_release(struct inode *inode, struct file *filp)
 {
     return 0;
 }
 
-static ssize_t axi4_dev_read(struct file *filp, char __user *buffer, size_t count,
-                             loff_t *offset)
+static ssize_t chrdev_dev_read(struct file *filp, char __user *buffer, size_t count, loff_t *offset)
 {
+    // offset is ignored
+
     unsigned long ret = 0;
-    u32 *target_vir_addr = NULL;
-    u32 kbuf[RRCM_RD_BUF_SIZE];
-    int i = 0;
 
-    if ((*offset < (CCU_START_ADDR * 4)) ||
-        (*offset > (CCU_END_ADDR * 4))) {
-        pr_err("offset[%lld] out of range[%d] ~ [%d]!", *offset, CCU_START_ADDR * 4, CCU_END_ADDR * 4);
+    if (count > sizeof(g_chrdev.buffer)) {
         return -EINVAL;
     }
 
-    if (count > RRCM_RD_BUF_SIZE * 4) {
-        pr_err("count[%zu] out of range[%d]", count, RRCM_RD_BUF_SIZE * 4);
-        return -EINVAL;
-    }
-
-    if (count % 4) {
-        pr_err("count[%zu] invalid, should multiples of [4]", count);
-        return -EINVAL;
-    }
-
-    target_vir_addr = (u32 *)(g_axi4_dev_addr + *offset);
-    //memcpy_fromio(kbuf, target_vir_addr, count);
-
-    for (i = 0; i < (count / 4); i++) {
-        kbuf[i] = ioread32(target_vir_addr + i);
-        pr_debug("ioread32(): addr[%p], offset[%lld], value[%u]",
-                 (target_vir_addr + i), (*offset / 4 + i), kbuf[i]);
-    }
-
-    ret = copy_to_user(buffer, kbuf, count);
+    ret = copy_to_user(buffer, g_chrdev.buffer, count);
     if (ret) {
         pr_err("copy_to_user() failed: ret[%lu]", ret);
         return -EFAULT;
     }
 
-    *offset += count;
     return count;
 }
 
-static ssize_t axi4_dev_write(struct file *filp, const char __user *buffer,
-                              size_t count, loff_t *offset)
+static ssize_t chrdev_dev_write(struct file *filp, const char __user *buffer, size_t count, loff_t *offset)
 {
+    // offset is ignored
+
     unsigned long ret = 0;
-    u32 *target_vir_addr = NULL;
-    u32 kbuf[RRCM_WR_BUF_SIZE];
-    int i = 0;
 
-    if ((*offset < (CCU_START_ADDR * 4)) ||
-        (*offset > (CCU_END_ADDR * 4))) {
-        pr_err("offset[%lld] out of range[%d] ~ [%d]!", *offset, CCU_START_ADDR * 4, CCU_END_ADDR * 4);
+    if (count > sizeof(g_chrdev.buffer)) {
         return -EINVAL;
     }
 
-    if (count > RRCM_WR_BUF_SIZE * 4) {
-        pr_err("count[%zu] out of range[%d]", count, RRCM_WR_BUF_SIZE * 4);
-        return -EINVAL;
-    }
-
-    if (count % 4) {
-        pr_err("count[%zu] invalid, should multiples of [4]", count);
-        return -EINVAL;
-    }
-
-    ret = copy_from_user(kbuf, buffer, count);
+    ret = copy_from_user(g_chrdev.buffer, buffer, count);
     if (ret){
-        pr_err("copy_from_user() failed: ret[%lu], buffer[0x%p], count[%zu]",
-               ret, buffer, count);
+        pr_err("copy_from_user() failed: ret[%lu], buffer[0x%p], count[%zu]", ret, buffer, count);
         return -EFAULT;
     }
 
-    target_vir_addr = (u32 *)(g_axi4_dev_addr + *offset);
-    for (i = 0; i < (count / 4); i++) {
-        iowrite32(kbuf[i], target_vir_addr + i);
-        pr_debug("iowrite32(): addr[%p], offset[%lld], value[%u]",
-                 (target_vir_addr + i), (*offset / 4 + i), kbuf[i]);
-    }
-    //memcpy_toio(target_vir_addr, kbuf, count);
-
-    *offset += count;
     return count;
 }
 
-static const struct file_operations axi4_dev_fops =
-{
+static const struct file_operations chrdev_dev_fops = {
     .owner   = THIS_MODULE,
-    .open    = axi4_dev_open,
-    .release = axi4_dev_release,
-    .read    = axi4_dev_read,
-    .write   = axi4_dev_write,
+    .open    = chrdev_dev_open,
+    .release = chrdev_dev_release,
+    .read    = chrdev_dev_read,
+    .write   = chrdev_dev_write,
 };
 
-static struct miscdevice axi4_dev_dev =
+int __init chrdev_dev_init(void)
 {
-    .minor = MISC_DYNAMIC_MINOR,
-    .name = DEVICE_NAME,
-    .fops = &axi4_dev_fops,
-};
-
-int __init axi4_dev_init(void)
-{
-    int ret;
-    size_t reg_size;
-    //pr_info("Compile time[%s %s]", __DATE__, __TIME__);
-
-    reg_size = CCU_END_ADDR - CCU_START_ADDR;
-    g_axi4_dev_addr = ioremap(AXI4_DEV_PHY_ADDR,
-                              reg_size * 4);
-    if (!g_axi4_dev_addr) {
-        pr_err("ioremap() failed: phy_addr[0x%x], size[%d]", AXI4_DEV_PHY_ADDR,
-               reg_size * 4);
-        return -EIO;
-    }
-    pr_info("ioremap() success: phy_addr[0x%x], size[%d], vir_addr[0x%p]",
-            AXI4_DEV_PHY_ADDR, (reg_size * 4),
-            g_axi4_dev_addr);
-
-    ret = misc_register(&axi4_dev_dev);
+    int ret = alloc_chrdev_region(&g_chrdev.devid, 0, 1, "chrdev");
     if (ret) {
-        pr_err("misc_register() failed: ret[%d]", ret);
-        return ret;
+        pr_err("alloc_chrdev_region() failed: ret[%d]", ret);
+        goto err_alloc_chrdev_region;
     }
 
-    pr_info("Module init success!");
-    return 0; /* Success */
+    g_chrdev.cdev.owner = THIS_MODULE;
+    cdev_init(&g_chrdev.cdev, &chrdev_dev_fops);
+
+    ret = cdev_add(&g_chrdev.cdev, g_chrdev.devid, 1);
+    if (ret) {
+        pr_err("cdev_add() failed: ret[%d]", ret);
+        goto err_cdev_add;
+    }
+
+    g_chrdev.class = class_create(THIS_MODULE, "chrdev");
+    if (IS_ERR(g_chrdev.class)) {
+        ret = PTR_ERR(g_chrdev.class);
+        pr_err("class_create() failed: ret[%d]", ret);
+        goto err_class_create;
+    }
+
+    g_chrdev.device = device_create(g_chrdev.class, NULL, g_chrdev.devid, NULL, "chrdev");
+    if (IS_ERR(g_chrdev.device)) {
+        ret = PTR_ERR(g_chrdev.device);
+        pr_err("device_create() failed: ret[%d]", ret);
+        goto err_device_create;
+    }
+
+    pr_info("register_chrdev() chrdev module success");
+    return 0;
+
+err_device_create:
+    class_destroy(g_chrdev.class);
+
+err_class_create:
+    cdev_del(&g_chrdev.cdev);
+
+err_cdev_add:
+    unregister_chrdev_region(g_chrdev.devid, 1);
+
+err_alloc_chrdev_region:
+
+    return ret;
 }
 
-void __exit axi4_dev_exit(void)
+void __exit chrdev_dev_exit(void)
 {
-    iounmap(g_axi4_dev_addr);
-    misc_deregister(&axi4_dev_dev);
+    device_destroy(g_chrdev.class, g_chrdev.devid);
 
-    pr_warn("Module exit");
+    class_destroy(g_chrdev.class);
+
+    cdev_del(&g_chrdev.cdev);
+
+    unregister_chrdev(g_chrdev.devid, "chrdev");
+
+    pr_info("unregister_chrdev() chrdev module!\n");
 }
 
-module_init(axi4_dev_init);
-module_exit(axi4_dev_exit);
+module_init(chrdev_dev_init);
+module_exit(chrdev_dev_exit);
 
 MODULE_AUTHOR("RONOVO Surgical");
-MODULE_ALIAS("axi4_dev");
-MODULE_DESCRIPTION("RONOVO Surgical axiscope module");
+MODULE_ALIAS("chrdev");
+MODULE_DESCRIPTION("RONOVO Surgical chrdev module");
 MODULE_LICENSE("GPL");
