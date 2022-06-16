@@ -1,6 +1,11 @@
 #include "vcu_trd.dtsi"
 
 / {
+    chosen {
+        bootargs = " earlycon clk_ignore_unused consoleblank=0 cma=1700M uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait";
+        stdout-path = "serial0:115200n8";
+    };
+
     rnvfpga {
         compatible = "ronovo,axiirq";
         interrupts = <0 29 4>;
